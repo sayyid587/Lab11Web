@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS artikel (
 );
 ```
 
-![Screenshot tabel](database.png)
+![Screenshot tabel](Screenshot/database.png)
 
 ### 2. Konfigurasi Database (config.php)
 
