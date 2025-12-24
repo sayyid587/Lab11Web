@@ -388,9 +388,13 @@ Sistem login diintegrasikan ke framework modular yang telah dibuat pada Praktiku
 
 Menampilkan form login dengan desain modern dan fitur show/hide password.
 
+![gambar](Screenshot/login)
+
 ### 2. Login Berhasil
 
 User diarahkan ke halaman daftar artikel setelah login berhasil.
+
+![gambar](Screenshot/setelah_login)
 
 ### 3. Proteksi Halaman
 
@@ -399,6 +403,8 @@ Akses langsung ke halaman artikel tanpa login akan diarahkan ke halaman login.
 ### 4. Halaman Profil
 
 Menampilkan data user dan fitur ubah password.
+
+![gambar](Screenshot/profil)
 
 ### 5. Logout
 
