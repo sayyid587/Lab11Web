@@ -225,11 +225,17 @@
 <header>
     <h2>Praktikum 11 - PHP OOP</h2>
 </header>
-<nav>
-    <nav class="top-nav">
+<nav class="top-nav">
     <a href="/lab11_php_oop/index.php">🏠 Home</a>
-    <a href="/lab11_php_oop/index.php/artikel/index">📄 Artikel</a>
-    <a href="/lab11_php_oop/index.php/artikel/tambah">➕ Tambah Artikel</a>
+
+    <?php if (isset($_SESSION['is_login'])): ?>
+        <a href="/lab11_php_oop/index.php/artikel/index">📄 Artikel</a>
+        <a href="/lab11_php_oop/index.php/user/profile">👤 Profil</a>
+        <a href="/lab11_php_oop/index.php/user/logout">🚪 Logout (<?= $_SESSION['nama'] ?>)</a>
+    <?php else: ?>
+        <a href="/lab11_php_oop/index.php/user/login">🔐 Login</a>
+    <?php endif; ?>
 </nav>
+
 <div class="layout">
 <main style="flex:1;">

@@ -1,26 +1,41 @@
 <?php
-// Load konfigurasi dan class
+session_start();
+
 include "config.php";
 include "class/Database.php";
 include "class/Form.php";
 
-session_start();
-
-// Ambil PATH_INFO (support jika pakai index.php/...)
 $path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/home/index';
 $segments = explode('/', trim($path, '/'));
 
-$mod = isset($segments[0]) && $segments[0] !== '' ? $segments[0] : 'home';
-$page = isset($segments[1]) && $segments[1] !== '' ? $segments[1] : 'index';
+$mod  = $segments[0] ?? 'home';
+$page = $segments[1] ?? 'index';
 
-$file = "module/{$mod}/{$page}.php";
+/* =========================
+   PROTEKSI HALAMAN
+========================= */
+$public_pages = ['home', 'user'];
 
-include "template/header.php";
-
-if (file_exists($file)) {
-    include $file;
-} else {
-    echo '<div style="padding:20px; color:#b00;">Modul tidak ditemukan: ' . htmlspecialchars($mod) . '/' . htmlspecialchars($page) . '</div>';
+if (!in_array($mod, $public_pages)) {
+    if (!isset($_SESSION['is_login'])) {
+        header("Location: /lab11_php_oop/index.php/user/login");
+        exit;
+    }
 }
 
-include "template/footer.php";
+$file = "module/$mod/$page.php";
+
+if (file_exists($file)) {
+
+if ($mod == 'user' && ($page == 'login' || $page == 'logout')) {
+    include $file;
+} else {
+    include "template/header.php";
+    include $file;
+    include "template/footer.php";
+}
+
+
+} else {
+    echo "<h3>Halaman tidak ditemukan</h3>";
+}
