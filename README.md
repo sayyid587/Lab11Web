@@ -237,4 +237,173 @@ Framework ini dapat dikembangkan lebih lanjut dengan menambahkan:
 - PHP OOP Tutorial
 
 ---
+
+# Praktikum 12: PHP OOP – Authentication & Session
+
+## Tujuan Praktikum
+Praktikum 12 bertujuan untuk:
+1. Memahami konsep autentikasi pengguna (login dan logout)
+2. Mengimplementasikan session pada aplikasi PHP OOP
+3. Membatasi akses halaman menggunakan session
+4. Mengintegrasikan sistem login ke framework modular
+5. Meningkatkan keamanan aplikasi web
+
+---
+
+## Struktur Folder Tambahan
+```pgsql
+lab11_php_oop/
+├── module/
+│   └── user/
+│       ├── login.php
+│       ├── logout.php
+│       └── profile.php
+└── database/
+    └── users.sql
+
+```
+
+---
+
+## Langkah-langkah Praktikum 12
+### 1. Menambahkan Tabel Users
+
+Tabel users digunakan untuk menyimpan data akun pengguna yang dapat login ke sistem.
+```sql
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(100),
+    username VARCHAR(50),
+    password VARCHAR(255)
+);
+```
+Password disimpan dalam bentuk hash untuk meningkatkan keamanan data.
+
+---
+
+### 2. Halaman Login (module/user/login.php)
+
+Halaman login berfungsi sebagai gerbang autentikasi pengguna.
+
+**Fitur:**
+- Input username dan password
+- Verifikasi password menggunakan password_verify()
+- Pembuatan session setelah login berhasil
+- Menampilkan pesan error jika login gagal
+- Fitur show/hide password untuk kenyamanan pengguna
+
+**Alur Login:**
+- User mengisi username dan password
+- Sistem mengambil data user dari database
+- Password diverifikasi
+- Jika valid → session dibuat
+- User diarahkan ke halaman artikel
+
+---
+
+### 3. Penggunaan Session
+
+Session digunakan untuk menandai status login pengguna.
+```php
+$_SESSION['is_login'] = true;
+$_SESSION['username'] = $user['username'];
+$_SESSION['nama'] = $user['nama'];
+```
+
+Session ini akan digunakan oleh sistem untuk menentukan apakah pengguna memiliki hak akses ke halaman tertentu.
+
+---
+
+### 4. Proteksi Halaman
+
+Halaman tertentu seperti artikel dan profil tidak dapat diakses tanpa login.
+```php
+if (!isset($_SESSION['is_login'])) {
+    header("Location: /user/login");
+    exit;
+}
+```
+
+Jika user belum login, sistem akan otomatis mengarahkan ke halaman login.
+
+---
+
+### 5. Halaman Profil (`module/user/profile.php`)
+
+Halaman profil menampilkan informasi akun pengguna dan menyediakan fitur untuk mengganti password.
+
+**Fitur:**
+- Menampilkan nama dan username
+- Mengubah password
+- Proteksi akses menggunakan session
+
+---
+
+6. Logout (module/user/logout.php)
+
+Logout dilakukan dengan menghapus session pengguna.
+```php
+session_destroy();
+header("Location: /user/login");
+exit;
+```
+
+Setelah logout, user tidak dapat mengakses halaman sistem tanpa login ulang.
+
+---
+
+## Konsep yang Dipelajari pada Praktikum 12
+### 1. Authentication
+
+Authentication adalah proses validasi identitas pengguna sebelum diberikan akses ke sistem.
+
+---
+
+### 2. Session Management
+
+Session digunakan untuk:
+- Menyimpan status login
+- Mengamankan halaman
+- Mengelola hak akses pengguna
+
+---
+
+### 3. Password Hashing
+
+Password tidak disimpan dalam bentuk teks asli, melainkan di-hash menggunakan fungsi bawaan PHP untuk meningkatkan keamanan.
+
+---
+
+### 4. Integrasi dengan Framework Modular
+
+Sistem login diintegrasikan ke framework modular yang telah dibuat pada Praktikum 11, sehingga:
+- Struktur aplikasi tetap rapi
+- Mudah dikembangkan
+- Konsisten dengan arsitektur modular
+
+---
+
+## Hasil Output Praktikum 12
+### 1. Halaman Login
+
+Menampilkan form login dengan desain modern dan fitur show/hide password.
+
+### 2. Login Berhasil
+
+User diarahkan ke halaman daftar artikel setelah login berhasil.
+
+### 3. Proteksi Halaman
+
+Akses langsung ke halaman artikel tanpa login akan diarahkan ke halaman login.
+
+### 4. Halaman Profil
+
+Menampilkan data user dan fitur ubah password.
+
+### 5. Logout
+
+Session berhasil dihapus dan user diarahkan ke halaman login.
+
+---
+
 **Universitas Pelita Bangsa - 2025**
